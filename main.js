@@ -62,11 +62,12 @@ document.addEventListener("DOMContentLoaded", () => {
       world.tileMap[row][col] = 4;
     } else if (arraysEqual(landMine, coordinates)) {
       world.tileMap[row][col] = 5;
+      world.shakeCanvasContext(20, 500);
     } else if (arraysEqual(extraLife, coordinates)) {
       world.tileMap[row][col] = 2;
     } else {
       world.tileMap[row][col] = 3;
-      world.shakeCanvasContext();
+      world.shakeCanvasContext(3);
     }
 
     console.log(row, col);

@@ -318,19 +318,21 @@ class World {
     return [this.mouseTileX, this.mouseTileY];
   }
 
-  // Shake the World
-  shakeCanvasContext() {
+  shakeCanvasContext(
+    intensity = this.shakeIntensity,
+    duration = this.shakeDuration
+  ) {
     const startTime = Date.now();
     const shakeInterval = setInterval(() => {
       const elapsedTime = Date.now() - startTime;
-      if (elapsedTime >= this.shakeDuration) {
+      if (elapsedTime >= duration) {
         clearInterval(shakeInterval);
         this.context.setTransform(1, 0, 0, 1, 0, 0);
         return;
       }
 
-      const offsetX = (Math.random() - 0.5) * this.shakeIntensity * 2;
-      const offsetY = (Math.random() - 0.5) * this.shakeIntensity * 2;
+      const offsetX = (Math.random() - 0.5) * intensity * 2;
+      const offsetY = (Math.random() - 0.5) * intensity * 2;
 
       this.context.setTransform(1, 0, 0, 1, offsetX, offsetY);
     }, 50);

@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const scoreDisplay = document.querySelector("#score");
   const timerDisplay = document.querySelector("#timer");
   const lifeDisplay = document.querySelector("#life");
+  const cellDisplay = document.querySelector("#coordinates");
   let score = 0;
   let round = 1;
 
@@ -26,14 +27,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     [treasures, deathBomb, extraLife] = generateCoordinates();
 
-    console.log(`
-        Coordinates
-
-        Treasures : ${treasures} 
-        deathBomb : ${deathBomb} 
-        extraLife : ${extraLife} 
-      `);
-
+    cellDisplay.textContent = `
+        Treasures : [${treasures}] 
+        deathBomb : [${deathBomb}] 
+        extraLife : [${extraLife}]
+      `;
     roundDisplay.textContent = `Round: ${round}`;
     scoreDisplay.textContent = `Score: ${score}`;
     lifeDisplay.textContent = `Life: ${lives}`;
@@ -61,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
         world.tileMap[row][col] = 4;
         minedCells.push(coordinates);
         score++;
-        checkMinedTreasures();
+        checkMinedTreasures(0.5);
       } else if (arraysEqual(deathBomb, coordinates)) {
         // DeathBomb (1 hit delete)
         world.tileMap[row][col] = 5;
@@ -79,42 +77,33 @@ document.addEventListener("DOMContentLoaded", () => {
         world.shakeCanvasContext(3);
         lives--;
         minedCells.push(coordinates);
-        nextRound();
+        if (lives == 0) {
+          checkMinedTreasures(1);
+        }
       }
 
-      console.log(`Mined Cells: ${minedCells}`);
       roundDisplay.textContent = `Round: ${round}`;
       scoreDisplay.textContent = `Score: ${score}`;
       lifeDisplay.textContent = `Life: ${lives}`;
     };
 
-    function nextRound() {
-      if (lives == 0) {
-        // Check if a treasure is found, if found, move on to the next round, else notify the player lost
-        treasures.forEach((treasure) => {
-          if (minedCells.some((cell) => arraysEqual(cell, treasure))) {
-            // Next round
-            startRound();
-            round++;
-          } else {
-            console.log("You Lost!");
-          }
-        });
-      }
-    }
-
-    function checkMinedTreasures() {
+    function checkMinedTreasures(increment = 1) {
       // Check if both treasure items are in the mineCells, then proceed to the next round
       treasures.forEach((treasure) => {
         if (
           minedCells.length > 1 &&
           minedCells.some((cell) => arraysEqual(cell, treasure))
-        ) {
-          // Next round
-          startRound();
-          round++;
-        }
+        )
+          advanceRound(increment);
       });
+    }
+
+    function advanceRound(increment = 1) {
+      // Next round
+      setTimeout(() => {
+        round += increment;
+        startRound();
+      }, 3000);
     }
   }
 

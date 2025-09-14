@@ -8,8 +8,10 @@ CREATE A SIMPLE GUESSING GAME
 
 4. It should show if the box has a treasure or is empty ✅
 
-5. If after each round a player have guessed at least one, the game continuous otherwise the game ends
+5. If after each round a player have guessed at least one, the game continuous otherwise the game ends ✅
 
 6. The game should show scores and each round should have a 10 second limit
 
-7. Make the game interesting
+7. Add a leaderboard
+
+8. Make all the console log their own UI

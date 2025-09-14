@@ -1,37 +1,95 @@
 import { World } from "./world.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Generate World
-  // Reminder: Create new Assets
+  // Generate World (Reminder: create new assets)
   let world = new World();
   world.init(
     "viewport",
     "https://assets.codepen.io/6201207/codepen-iso-tilesheet.png"
   );
 
-  let treasures = [];
-  let landMine;
-  let extraLife;
+  let score = 0;
+  let round = 1;
 
-  generateCoordinates();
+  function startRound() {
+    let treasures = [];
+    let deathBomb = [];
+    let extraLife = [];
+    let lives = 2;
+    let minedCells = [];
 
-  console.log(`
+    [treasures, deathBomb, extraLife] = generateCoordinates();
+
+    console.log(`
         Coordinates
 
         Treasures : ${treasures} 
-        landMine : ${landMine} 
+        deathBomb : ${deathBomb} 
         extraLife : ${extraLife} 
       `);
 
+    // Main event listener
+    world.canvas.ondblclick = (e) => {
+      // Check if you player still has remaining lives
+      if (lives <= 0) {
+        console.log("You Lost!");
+        return;
+      }
+
+      let [row, col] = world.onMouseMove(e);
+      let coordinates = [row, col];
+
+      // Check if a cell is already mined
+      if (minedCells.some((cell) => arraysEqual(cell, coordinates))) {
+        console.log("You already chose this cell");
+        return;
+      }
+
+      // Check what item in the cell the player clicked
+      if (treasures.some((item) => arraysEqual(item, coordinates))) {
+        // Treasure
+        world.tileMap[row][col] = 4;
+        minedCells.push(coordinates);
+      } else if (arraysEqual(deathBomb, coordinates)) {
+        // DeathBomb (1 hit delete)
+        world.tileMap[row][col] = 5;
+        world.shakeCanvasContext(20, 500);
+        lives = 0;
+        console.log("You Lost!");
+      } else if (arraysEqual(extraLife, coordinates)) {
+        // Extra Life
+        world.tileMap[row][col] = 2;
+        lives++;
+        minedCells.push(coordinates);
+      } else {
+        // Default bomb
+        world.tileMap[row][col] = 3;
+        world.shakeCanvasContext(3);
+        lives--;
+        minedCells.push(coordinates);
+        if (lives == 0) {
+          console.log("You Lost!");
+        }
+      }
+
+      console.log(row, col);
+      console.log(`Remaining lives: ${lives}`);
+      console.log(`Mined Cells: ${minedCells}`);
+    };
+  }
+
+  startRound();
+
+  // Utility Functions
   function generateCoordinates() {
     let takenPositions = [];
 
     let treasure1 = generateUniqueCell(takenPositions);
     let treasure2 = generateUniqueCell(takenPositions);
-    landMine = generateUniqueCell(takenPositions);
-    extraLife = generateUniqueCell(takenPositions);
+    let deathBomb = generateUniqueCell(takenPositions);
+    let extraLife = generateUniqueCell(takenPositions);
 
-    treasures.push(treasure1, treasure2);
+    return [[treasure1, treasure2], deathBomb, extraLife];
   }
 
   function generateRandomCell() {
@@ -51,25 +109,4 @@ document.addEventListener("DOMContentLoaded", () => {
     if (a.length !== b.length) return false;
     return a.every((val, i) => val === b[i]);
   }
-
-  // Click event
-  world.canvas.ondblclick = (e) => {
-    let [row, col] = world.onMouseMove(e);
-    let coordinates = [row, col];
-
-    // Check what item in the cell you clicked
-    if (treasures.some((item) => arraysEqual(item, coordinates))) {
-      world.tileMap[row][col] = 4;
-    } else if (arraysEqual(landMine, coordinates)) {
-      world.tileMap[row][col] = 5;
-      world.shakeCanvasContext(20, 500);
-    } else if (arraysEqual(extraLife, coordinates)) {
-      world.tileMap[row][col] = 2;
-    } else {
-      world.tileMap[row][col] = 3;
-      world.shakeCanvasContext(3);
-    }
-
-    console.log(row, col);
-  };
 });

@@ -282,6 +282,7 @@ class World {
     let textY = screenY + this.projectedTileHeight / 2;
 
     let text = `${this.mouseTileX}, ${this.mouseTileY}`;
+    // let text = `?`;
 
     this.context.fillText(text, textX, textY);
   }

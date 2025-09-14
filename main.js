@@ -2,6 +2,7 @@ import { World } from "./world.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   // Generate World
+  // Reminder: Create new Assets
   let world = new World();
   world.init(
     "viewport",
@@ -56,6 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let [row, col] = world.onMouseMove(e);
     let coordinates = [row, col];
 
+    // Check what item in the cell you clicked
     if (treasures.some((item) => arraysEqual(item, coordinates))) {
       world.tileMap[row][col] = 4;
     } else if (arraysEqual(landMine, coordinates)) {
@@ -64,6 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
       world.tileMap[row][col] = 2;
     } else {
       world.tileMap[row][col] = 3;
+      world.shakeCanvasContext();
     }
 
     console.log(row, col);

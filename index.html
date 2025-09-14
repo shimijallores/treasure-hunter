@@ -13,13 +13,19 @@
       <div id="score-div" class="absolute m-20 text-left">
         <p id="round" class="text-5xl">Round: 0</p>
         <p id="score" class="text-5xl">Score: 0</p>
-        <p id="life" class="text-5xl">Life Ramaining: 2</p>
-        <p id="timer" class="text-5xl">Time Remaining: 00:00</p>
+        <p id="life" class="text-5xl">Life Remaining: 2</p>
+        <p id="timer" class="text-5xl">Time Remaining: 10</p>
 
         <!-- Temporary UI -->
         <div class="top-0 right-0 fixed m-20">
           <p id="coordinates" class="text-5xl"></p>
         </div>
+
+        <button
+          id="start"
+          class="absolute bg-orange-600 my-4 px-8 text-lg py-4 rounded-md cursor-pointer hover:bg-orange-800 transition duration-200 text-white">
+          Start
+        </button>
       </div>
     </div>
     <canvas id="viewport" class=""></canvas>

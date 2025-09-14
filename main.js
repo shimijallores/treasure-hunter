@@ -13,10 +13,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const timerDisplay = document.querySelector("#timer");
   const lifeDisplay = document.querySelector("#life");
   const cellDisplay = document.querySelector("#coordinates");
+  const startButton = document.querySelector("#start");
   let score = 0;
   let round = 1;
 
   function startRound() {
+    // start a new world
     world.buildMap();
 
     let treasures = [];
@@ -24,9 +26,34 @@ document.addEventListener("DOMContentLoaded", () => {
     let extraLife = [];
     let lives = 2;
     let minedCells = [];
+    let time = 10; // 10 seconds
+    let timerInterval;
 
     [treasures, deathBomb, extraLife] = generateCoordinates();
 
+    // Start a timer
+    timerInterval = setInterval(() => {
+      if (!time <= 0) {
+        time--;
+        timerDisplay.textContent = `Time Remaining: ${String(time).padStart(
+          2,
+          "0"
+        )}`;
+      } else {
+        console.log("Times up!");
+
+        treasures.forEach((treasure) => {
+          if (minedCells.some((cell) => arraysEqual(cell, treasure))) {
+            console.log("yey");
+            advanceRound(1);
+          }
+        });
+
+        clearInterval(timerInterval);
+      }
+    }, 1000);
+
+    // UI Display
     cellDisplay.textContent = `
         Treasures : [${treasures}] 
         deathBomb : [${deathBomb}] 
@@ -65,6 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
         world.tileMap[row][col] = 5;
         world.shakeCanvasContext(20, 500);
         lives = 0;
+        clearInterval(timerInterval);
         console.log("You Chose the Death Bomb! BOOOOM!");
       } else if (arraysEqual(extraLife, coordinates)) {
         // Extra Life
@@ -102,12 +130,13 @@ document.addEventListener("DOMContentLoaded", () => {
       // Next round
       setTimeout(() => {
         round += increment;
+        clearInterval(timerInterval);
         startRound();
-      }, 3000);
+      }, 500);
     }
   }
 
-  startRound();
+  startButton.addEventListener("click", startRound);
 });
 
 // Utility Functions

@@ -86,3 +86,45 @@ body {
   opacity: 0.9;
   transform: scale(1.02);
 }
+
+/* Radial transition styles */
+.radial-hidden {
+  display: none;
+}
+.radial-visible {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 2500;
+  pointer-events: none;
+}
+.radial-circle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at center,
+    #fff 0%,
+    #fff 30%,
+    rgba(221, 160, 89, 0) 70%
+  );
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+@keyframes radialExpand {
+  0% {
+    transform: translate(-50%, -50%) scale(0.02);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(30);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(60);
+    opacity: 0;
+  }
+}

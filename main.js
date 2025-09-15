@@ -2,7 +2,7 @@ import { World } from "./world.js";
 import soundManager from "./soundManager.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Generate World (Reminder: create new assets)
+  // Generate World
   let world = new World();
   world.init("viewport", "./assets/videos/spritesheet.webm");
 
@@ -42,9 +42,9 @@ document.addEventListener("DOMContentLoaded", () => {
     location.reload();
   }
 
-  // Restart button (replaces previous close button)
+  // Restart button
   modalRestart?.addEventListener("click", restartGame);
-  // Keep ability to close by clicking backdrop (optional)
+  // Keep ability to close by clicking backdrop
   gameModal?.addEventListener("click", (e) => {
     if (
       e.target === gameModal ||
@@ -77,6 +77,34 @@ document.addEventListener("DOMContentLoaded", () => {
     startRound();
   });
 
+  // Radial transition elements
+  const radialContainer = document.querySelector("#radial-transition");
+
+  function showRadialTransition(duration = 800) {
+    return new Promise((resolve) => {
+      if (!radialContainer) return resolve();
+
+      // Clear previous content
+      radialContainer.innerHTML = "";
+      radialContainer.classList.remove("radial-hidden");
+      radialContainer.classList.add("radial-visible");
+
+      const circle = document.createElement("div");
+      circle.className = "radial-circle";
+      radialContainer.appendChild(circle);
+
+      // Start animation via inline style using keyframes
+      circle.style.animation = `radialExpand ${duration}ms ease-in-out forwards`;
+
+      // Resolve after animation
+      setTimeout(() => {
+        radialContainer.classList.remove("radial-visible");
+        radialContainer.classList.add("radial-hidden");
+        radialContainer.innerHTML = "";
+        resolve();
+      }, duration + 50);
+    });
+  }
   function startRound() {
     // start a new world
     world.buildMap();
@@ -99,7 +127,6 @@ document.addEventListener("DOMContentLoaded", () => {
         time--;
         timerDisplay.textContent = `${String(time).padStart(2, "0")}`;
       } else {
-        // Time's up: perform checks but do not show modal (UI handled when user advances)
         console.log("Time's up! Round ended.");
 
         // Check if atleast 1 treasure is mined
@@ -203,10 +230,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function advanceRound() {
-      // Next round
-      setTimeout(() => {
-        round++;
+      // Next round with radial transition
+      setTimeout(async () => {
         clearInterval(timerInterval);
+        await showRadialTransition();
+        round++;
         startRound();
       }, 500);
     }

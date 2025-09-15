@@ -9,24 +9,45 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
   <body>
-    <div id="user-interface">
+    <div id="user-interface" class="pixelify">
+      <div id="menu" class="absolute w-full h-full z-100">
+        <input type="text" id="player" class="p-2 bg-white text-black m-2" />
+        <button
+          id="start"
+          class="absolute my-4 px-8 text-lg py-4 rounded-md cursor-pointer hover:opacity-90 hover:scale-102 transition duration-200 text-white animate-pulse">
+          <img src="/assets/images/startButton.svg" alt="Start" class="w-50" />
+        </button>
+      </div>
+
       <div id="score-div" class="absolute m-20 text-left">
-        <p id="round" class="text-5xl">Round: 0</p>
-        <p id="score" class="text-5xl">Score: 0</p>
-        <p id="life" class="text-5xl">Life Remaining: 2</p>
-        <p id="timer" class="text-5xl">Time Remaining: 10</p>
+        <div class="relative flex flex-col justify-center items-center">
+          <p id="" class="text-6xl">Round</p>
+          <p id="round" class="text-8xl absolute bottom-15">0</p>
+          <img src="/assets/images/round.svg" alt="round" class="w-50" />
+        </div>
+
+        <div class="relative flex flex-col justify-center items-center">
+          <p id="" class="text-6xl">Score</p>
+          <p id="score" class="text-8xl absolute bottom-15">0</p>
+          <img src="/assets/images/score.svg" alt="score" class="w-50" />
+        </div>
+
+        <div class="relative flex flex-col justify-center items-center">
+          <p id="time" class="text-6xl">Time</p>
+          <p id="timer" class="text-8xl absolute bottom-15">0</p>
+          <img src="/assets/images/time.svg" alt="time" class="w-50" />
+        </div>
+
+        <div class="relative flex flex-col justify-center items-center">
+          <p id="" class="text-6xl">Lives</p>
+          <p id="life" class="text-8xl absolute bottom-15">0</p>
+          <img src="/assets/images/life.svg" alt="life" class="w-50" />
+        </div>
 
         <!-- Temporary UI -->
         <div class="top-0 right-0 fixed m-20">
           <p id="coordinates" class="text-5xl"></p>
         </div>
-
-        <input type="text" id="player" class="p-2 bg-white text-black m-2" />
-        <button
-          id="start"
-          class="absolute bg-orange-600 my-4 px-8 text-lg py-4 rounded-md cursor-pointer hover:bg-orange-800 transition duration-200 text-white">
-          Start
-        </button>
 
         <div id="leaderboard fixed top-0">
           <ol id="leaderboard-list"></ol>

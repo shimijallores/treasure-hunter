@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   world.init("viewport", "./assets/videos/spritesheet.webm");
 
   // Variables
+  const menu = document.querySelector("#menu");
   const roundDisplay = document.querySelector("#round");
   const scoreDisplay = document.querySelector("#score");
   const timerDisplay = document.querySelector("#timer");
@@ -30,6 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     playerInput.disabled = true;
     playerInput.classList.add("hidden");
+    menu.classList.add("hidden");
 
     // Start Round
     // Play start sound and background music
@@ -59,10 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
     timerInterval = setInterval(() => {
       if (time > 0) {
         time--;
-        timerDisplay.textContent = `Time Remaining: ${String(time).padStart(
-          2,
-          "0"
-        )}`;
+        timerDisplay.textContent = `${String(time).padStart(2, "0")}`;
       } else {
         console.log("Times up!");
 
@@ -85,9 +84,9 @@ document.addEventListener("DOMContentLoaded", () => {
         deathBomb : [${deathBomb}] 
         extraLife : [${extraLife}]
       `;
-    roundDisplay.textContent = `Round: ${round}`;
-    scoreDisplay.textContent = `Score: ${score}`;
-    lifeDisplay.textContent = `Life: ${lives}`;
+    roundDisplay.textContent = `${round}`;
+    scoreDisplay.textContent = `${score}`;
+    lifeDisplay.textContent = `${lives}`;
 
     // Main event listener
     world.canvas.ondblclick = (e) => {

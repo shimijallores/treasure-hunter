@@ -145,9 +145,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
 
-      roundDisplay.textContent = `Round: ${round}`;
-      scoreDisplay.textContent = `Score: ${score}`;
-      lifeDisplay.textContent = `Life: ${lives}`;
+      roundDisplay.textContent = `${round}`;
+      scoreDisplay.textContent = `${score}`;
+      lifeDisplay.textContent = `${lives}`;
     };
 
     function checkMinedTreasures() {

@@ -8,32 +8,58 @@ document.addEventListener("DOMContentLoaded", () => {
     "https://assets.codepen.io/6201207/codepen-iso-tilesheet.png"
   );
 
+  // Variables
   const roundDisplay = document.querySelector("#round");
   const scoreDisplay = document.querySelector("#score");
   const timerDisplay = document.querySelector("#timer");
   const lifeDisplay = document.querySelector("#life");
   const cellDisplay = document.querySelector("#coordinates");
   const startButton = document.querySelector("#start");
+  const playerInput = document.querySelector("#player");
+  const leaderboardList = document.querySelector("#leaderboard-list");
   let score = 0;
   let round = 1;
+  let player;
+
+  // Initial Leaderboard Generation
+  generateLeaderboard();
+
+  // Startgame Event Listener
+  startButton.addEventListener("click", () => {
+    player = playerInput.value
+      ? playerInput.value
+      : `Guest${Math.floor(Math.random() * 999999)}`;
+
+    playerInput.disabled = true;
+    playerInput.classList.add("hidden");
+
+    // Start Round
+    startRound();
+  });
 
   function startRound() {
     // start a new world
     world.buildMap();
+    // Generate Leaderboard
+    generateLeaderboard();
+
+    let rankings = JSON.parse(localStorage.getItem("leaderboard")) || [];
+
+    console.log(rankings);
 
     let treasures = [];
     let deathBomb = [];
     let extraLife = [];
     let lives = 2;
     let minedCells = [];
-    let time = 10; // 10 seconds
+    let time = 11; // 10 seconds
     let timerInterval;
 
     [treasures, deathBomb, extraLife] = generateCoordinates();
 
     // Start a timer
     timerInterval = setInterval(() => {
-      if (!time <= 0) {
+      if (time > 0) {
         time--;
         timerDisplay.textContent = `Time Remaining: ${String(time).padStart(
           2,
@@ -42,12 +68,14 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         console.log("Times up!");
 
-        treasures.forEach((treasure) => {
-          if (minedCells.some((cell) => arraysEqual(cell, treasure))) {
-            console.log("yey");
-            advanceRound(1);
-          }
-        });
+        // Check if atleast 1 treasure is mined
+        if (
+          treasures.some((t) => minedCells.some((cell) => arraysEqual(cell, t)))
+        ) {
+          advanceRound(1);
+        } else {
+          saveToLocalStorage();
+        }
 
         clearInterval(timerInterval);
       }
@@ -86,7 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
         world.tileMap[row][col] = 4;
         minedCells.push(coordinates);
         score++;
-        checkMinedTreasures(0.5);
+        checkMinedTreasures();
       } else if (arraysEqual(deathBomb, coordinates)) {
         // DeathBomb (1 hit delete)
         world.tileMap[row][col] = 5;
@@ -94,6 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
         lives = 0;
         clearInterval(timerInterval);
         console.log("You Chose the Death Bomb! BOOOOM!");
+        saveToLocalStorage();
       } else if (arraysEqual(extraLife, coordinates)) {
         // Extra Life
         world.tileMap[row][col] = 2;
@@ -106,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
         lives--;
         minedCells.push(coordinates);
         if (lives == 0) {
-          checkMinedTreasures(1);
+          checkMinedTreasures();
         }
       }
 
@@ -115,28 +144,57 @@ document.addEventListener("DOMContentLoaded", () => {
       lifeDisplay.textContent = `Life: ${lives}`;
     };
 
-    function checkMinedTreasures(increment = 1) {
+    function checkMinedTreasures() {
       // Check if both treasure items are in the mineCells, then proceed to the next round
-      treasures.forEach((treasure) => {
-        if (
-          minedCells.length > 1 &&
-          minedCells.some((cell) => arraysEqual(cell, treasure))
-        )
-          advanceRound(increment);
-      });
+      if (
+        treasures.every((t) => minedCells.some((cell) => arraysEqual(cell, t)))
+      ) {
+        advanceRound();
+      } else {
+        saveToLocalStorage();
+      }
     }
 
-    function advanceRound(increment = 1) {
+    function advanceRound() {
       // Next round
       setTimeout(() => {
-        round += increment;
+        round++;
         clearInterval(timerInterval);
         startRound();
       }, 500);
     }
+
+    function saveToLocalStorage() {
+      let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
+
+      let existing = leaderboard.find((entry) => entry.name === player);
+
+      if (existing) {
+        existing.score = score;
+        existing.round = round;
+      } else {
+        leaderboard.push({ name: player, score, round });
+      }
+
+      leaderboard.sort((a, b) => b.score - a.score).slice(0, 10);
+
+      localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+    }
   }
 
-  startButton.addEventListener("click", startRound);
+  function generateLeaderboard() {
+    let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
+
+    leaderboardList.innerHTML = "";
+
+    leaderboard.forEach((entry, index) => {
+      let leaderboardEntry = document.createElement("li");
+      leaderboardEntry.textContent = `${index + 1}. ${entry.name} reached ${
+        entry.round
+      } round/s and got a score of ${entry.score}`;
+      leaderboardList.appendChild(leaderboardEntry);
+    });
+  }
 });
 
 // Utility Functions

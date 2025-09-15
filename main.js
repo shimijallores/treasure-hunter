@@ -43,10 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // Generate Leaderboard
     generateLeaderboard();
 
-    let rankings = JSON.parse(localStorage.getItem("leaderboard")) || [];
-
-    console.log(rankings);
-
     let treasures = [];
     let deathBomb = [];
     let extraLife = [];

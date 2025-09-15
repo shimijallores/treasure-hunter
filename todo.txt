@@ -12,12 +12,12 @@ CREATE A SIMPLE GUESSING GAME
 
 6. The game should show scores and each round should have a 10 second limit ✅
 
-7. Add a user prompt before game start
+7. Add a user prompt before game start ✅
 
-8. Add a leaderboard
+8. Add a leaderboard ✅
 
-9. Make all the console log their own UI
+9. Add sound (Click, bomb, nuclear bomb, treasure, life, background, game start state, game lose state) 
 
-10. Add sound
+10. Add game status pop ups (Transition between Rounds, Game Start, You Lose, Times Up, You already chose this cell, You chose a death bomb)
 
-11. Add game status pop ups
+11. Fix start/restart option and other bugs

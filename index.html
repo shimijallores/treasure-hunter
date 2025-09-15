@@ -8,20 +8,20 @@
     <script src="main.js" defer type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
-  <body>
+  <body class="flex justify-between">
     <div id="user-interface" class="pixelify">
       <div id="menu" class="absolute w-full h-full z-100">
         <input type="text" id="player" class="p-2 bg-white text-black m-2" />
         <button
           id="start"
-          class="absolute my-4 px-8 text-lg py-4 rounded-md cursor-pointer hover:opacity-90 hover:scale-102 transition duration-200 text-white animate-pulse">
-          <img src="/assets/images/startButton.svg" alt="Start" class="w-40" />
+          class="absolute my-4 px-8 text-lg py-4 rounded-md cursor-pointer hover:opacity-90 hover:scale-102 transition duration-200 text-white">
+          <img src="/assets/images/startButton.svg" alt="Start" class="w-50" />
         </button>
       </div>
 
       <div
         id="score-div"
-        class="absolute bg-[#dda059] h-svh w-1/5 gap-y-5 flex flex-col justify-center items-center border-10 rounded border-[#6b3710]">
+        class="absolute bg-[#dda059] h-svh w-1/6 gap-y-5 flex flex-col justify-center items-center border-10 rounded border-[#6b3710]">
         <div
           class="relative flex flex-col justify-center slot-div items-center border-8 rounded border-[#dda059] py-4 px-12 inset-shadow-sm">
           <p id="time" class="text-6xl">Time</p>
@@ -60,6 +60,8 @@
         </div>
       </div>
     </div>
-    <canvas id="viewport" class=""></canvas>
+    <canvas
+      id="viewport"
+      class="w-5/6 border-10 rounded border-[#6b3710]"></canvas>
   </body>
 </html>

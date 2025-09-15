@@ -1,15 +1,15 @@
 class World {
   constructor() {
-    this.viewportWidth = 1920;
-    this.viewportHeight = 1080;
+    this.viewportWidth = 640;
+    this.viewportHeight = 480;
 
     this.canvas = null;
     this.context = null;
     this.tileSheetImg = null;
     this.tileMap = null;
 
-    this.mapOffsetX = 450;
-    this.mapOffsetY = 400;
+    this.mapOffsetX = -25;
+    this.mapOffsetY = 250;
 
     this.mouseDown = false;
     this.mouseScreenX = 0;
@@ -177,7 +177,11 @@ class World {
   }
 
   mainLoop() {
-    this.clearViewport("#1A1B1F");
+    let sky = this.context.createLinearGradient(0, 0, 0, this.viewportHeight);
+    sky.addColorStop(0, "#87CEEB");
+    sky.addColorStop(1, "#4682B4");
+
+    this.clearViewport(sky);
     this.draw();
 
     window.requestAnimationFrame(() => {

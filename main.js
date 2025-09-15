@@ -207,16 +207,19 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// Utility Functions
 function generateCoordinates() {
   let takenPositions = [];
+  let treasures = [];
+  let treasureCount = 10;
 
-  let treasure1 = generateUniqueCell(takenPositions);
-  let treasure2 = generateUniqueCell(takenPositions);
+  for (let i = 0; i < treasureCount; i++) {
+    treasures.push(generateUniqueCell(takenPositions));
+  }
+
   let deathBomb = generateUniqueCell(takenPositions);
   let extraLife = generateUniqueCell(takenPositions);
 
-  return [[treasure1, treasure2], deathBomb, extraLife];
+  return [treasures, deathBomb, extraLife];
 }
 
 function generateRandomCell() {

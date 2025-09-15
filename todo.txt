@@ -18,8 +18,10 @@ CREATE A SIMPLE GUESSING GAME
 
 9. Add new sprite sheet ✅
 
-10. Add sound (Click, bomb, nuclear bomb, treasure, life, background, game start state, game lose state) 
+10. Add sound (Click, bomb, nuclear bomb, treasure, life, background, game start state, game lose state) ✅
 
 11. Add game status pop ups (Transition between Rounds, Game Start, You Lose, Times Up, You already chose this cell, You chose a death bomb)
+
+12. Add game UI/button UI (Start, Life, Score, Leaderboards, Name Input, Round, Time) ✅
 
 12. Fix start/restart option and other bugs

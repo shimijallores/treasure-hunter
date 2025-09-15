@@ -1,4 +1,4 @@
-export default soundManager = {
+const soundManager = {
   sounds: {
     click: new Audio("./assets/sfx/click.mp3"),
     treasure: new Audio("./assets/sfx/treasure.mp3"),
@@ -12,22 +12,34 @@ export default soundManager = {
   play(name) {
     const sound = this.sounds[name];
     if (sound) {
-      sound.currentTime = 0;
-      sound.play();
+      try {
+        sound.currentTime = 0;
+      } catch (e) {
+        // ignore if currentTime not writable yet
+      }
+      const p = sound.play();
+      if (p && typeof p.catch === "function") p.catch(() => {});
     }
   },
   loop(name) {
     const sound = this.sounds[name];
     if (sound) {
       sound.loop = true;
-      sound.play();
+      const p = sound.play();
+      if (p && typeof p.catch === "function") p.catch(() => {});
     }
   },
   stop(name) {
     const sound = this.sounds[name];
     if (sound) {
       sound.pause();
-      sound.currentTime = 0;
+      try {
+        sound.currentTime = 0;
+      } catch (e) {
+        // ignore
+      }
     }
   },
 };
+
+export default soundManager;

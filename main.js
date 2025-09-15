@@ -1,4 +1,5 @@
 import { World } from "./world.js";
+import soundManager from "./soundManager.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   // Generate World (Reminder: create new assets)
@@ -31,6 +32,10 @@ document.addEventListener("DOMContentLoaded", () => {
     playerInput.classList.add("hidden");
 
     // Start Round
+    // Play start sound and background music
+    soundManager.play("start");
+    soundManager.loop("bg");
+
     startRound();
   });
 
@@ -92,6 +97,9 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
+      // Play click sound
+      soundManager.play("click");
+
       let [row, col] = world.onMouseMove(e);
       let coordinates = [row, col];
 
@@ -107,6 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
         world.tileMap[row][col] = 27;
         minedCells.push(coordinates);
         score++;
+        soundManager.play("treasure");
         checkMinedTreasures();
       } else if (arraysEqual(deathBomb, coordinates)) {
         // DeathBomb (1 hit delete)
@@ -115,18 +124,23 @@ document.addEventListener("DOMContentLoaded", () => {
         lives = 0;
         clearInterval(timerInterval);
         console.log("You Chose the Death Bomb! BOOOOM!");
+        soundManager.play("nuclear");
+        soundManager.stop("bg");
+        soundManager.play("lose");
         saveToLocalStorage();
       } else if (arraysEqual(extraLife, coordinates)) {
         // Extra Life
         world.tileMap[row][col] = 26;
         lives++;
         minedCells.push(coordinates);
+        soundManager.play("life");
       } else {
         // Default bomb
         world.tileMap[row][col] = 25;
         world.shakeCanvasContext(3);
         lives--;
         minedCells.push(coordinates);
+        soundManager.play("bomb");
         if (lives == 0) {
           checkMinedTreasures();
         }
@@ -142,6 +156,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if (
         treasures.every((t) => minedCells.some((cell) => arraysEqual(cell, t)))
       ) {
+        // stop background briefly and play start for next round transition
+        soundManager.play("start");
         advanceRound();
       } else {
         saveToLocalStorage();

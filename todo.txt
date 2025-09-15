@@ -16,7 +16,7 @@ CREATE A SIMPLE GUESSING GAME
 
 8. Add a leaderboard ✅
 
-9. Add new sprite sheet
+9. Add new sprite sheet ✅
 
 10. Add sound (Click, bomb, nuclear bomb, treasure, life, background, game start state, game lose state) 
 

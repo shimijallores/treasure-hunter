@@ -1,15 +1,15 @@
 class World {
   constructor() {
-    this.viewportWidth = 640;
-    this.viewportHeight = 480;
+    this.viewportWidth = 1366;
+    this.viewportHeight = 720;
 
     this.canvas = null;
     this.context = null;
     this.tileSheetImg = null;
     this.tileMap = null;
 
-    this.mapOffsetX = -25;
-    this.mapOffsetY = 250;
+    this.mapOffsetX = 350;
+    this.mapOffsetY = 350;
 
     this.mouseDown = false;
     this.mouseScreenX = 0;
@@ -170,9 +170,11 @@ class World {
 
   buildMap() {
     this.tileMap = [
-      [29, 29, 29],
-      [29, 29, 29],
-      [29, 29, 29],
+      [29, 29, 29, 29, 29],
+      [29, 29, 29, 29, 29],
+      [29, 29, 29, 29, 29],
+      [29, 29, 29, 29, 29],
+      [29, 29, 29, 29, 29],
     ];
   }
 

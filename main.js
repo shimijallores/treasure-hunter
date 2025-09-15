@@ -79,6 +79,13 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }, 1000);
 
+    console.log(`
+        Coordinates:
+        Treasures: ${treasures}
+        DeathBomb: ${deathBomb}
+        ExtraLife: ${extraLife}
+      `);
+
     roundDisplay.textContent = `${round}`;
     scoreDisplay.textContent = `${score}`;
     lifeDisplay.textContent = `${lives}`;
@@ -213,7 +220,7 @@ function generateCoordinates() {
 }
 
 function generateRandomCell() {
-  return [Math.floor(Math.random(0) * 3), Math.floor(Math.random(0) * 3)];
+  return [Math.floor(Math.random(0) * 5), Math.floor(Math.random(0) * 5)];
 }
 
 function generateUniqueCell(takenPositions) {

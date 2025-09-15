@@ -23,6 +23,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initial Leaderboard Generation
   generateLeaderboard();
 
+  soundManager.loop("bg");
+
   // Startgame Event Listener
   startButton.addEventListener("click", () => {
     player = playerInput.value

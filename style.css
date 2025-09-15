@@ -29,6 +29,10 @@ body {
   border-style: ridge;
 }
 
+.ridged {
+  border-style: ridge;
+}
+
 .slot-div {
   border-right-style: outset;
   border-top-style: inset;

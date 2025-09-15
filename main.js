@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const scoreDisplay = document.querySelector("#score");
   const timerDisplay = document.querySelector("#timer");
   const lifeDisplay = document.querySelector("#life");
-  const cellDisplay = document.querySelector("#coordinates");
   const startButton = document.querySelector("#start");
   const playerInput = document.querySelector("#player");
   const leaderboardList = document.querySelector("#leaderboard-list");
@@ -80,12 +79,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }, 1000);
 
-    // UI Display
-    cellDisplay.textContent = `
-        Treasures : [${treasures}] 
-        deathBomb : [${deathBomb}] 
-        extraLife : [${extraLife}]
-      `;
     roundDisplay.textContent = `${round}`;
     scoreDisplay.textContent = `${score}`;
     lifeDisplay.textContent = `${lives}`;

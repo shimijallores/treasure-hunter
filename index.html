@@ -9,8 +9,9 @@
     <script src="main.js" defer type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
-  <body class="flex justify-between">
+  <body class="">
     <div id="user-interface" class="pixelify">
+      <!-- Main Menu -->
       <div id="menu" class="absolute w-full h-svh flex bg-black z-1000">
         <video loop autoplay muted playsinline class="h-fit absolute">
           <source src="/assets/videos/loop.mp4" type="video/mp4" />
@@ -34,9 +35,10 @@
         </div>
       </div>
 
+      <!-- Side Bar -->
       <div
         id="score-div"
-        class="absolute bg-[#dda059] h-svh w-1/6 gap-y-5 flex flex-col justify-center items-center border-10 rounded border-[#6b3710]">
+        class="absolute bg-[#dda059] h-svh w-1/6 max-w-1/6 gap-y-5 flex flex-col justify-center items-center border-10 rounded border-[#6b3710]">
         <div
           class="relative flex flex-col justify-center slot-div items-center border-8 rounded border-[#dda059] py-4 px-12 inset-shadow-sm">
           <p id="time" class="text-6xl">Time</p>
@@ -64,19 +66,21 @@
           <p id="score" class="text-8xl absolute bottom-15">0</p>
           <img src="/assets/images/score.svg" alt="score" class="w-40" />
         </div>
-
-        <!-- Temporary UI -->
-        <div class="top-0 right-0 fixed m-20">
-          <p id="coordinates" class="text-5xl"></p>
-        </div>
-
-        <div id="leaderboard" class="hidden">
-          <ol id="leaderboard-list"></ol>
-        </div>
       </div>
     </div>
+
     <canvas
       id="viewport"
-      class="w-5/6 border-10 rounded border-[#6b3710]"></canvas>
+      class="w-full h-svh border-10 rounded border-[#6b3710]"></canvas>
+
+    <!-- Leaderboards -->
+    <div
+      id="leaderboard"
+      class="pixelify bg-[#dda059] max-w-1/6 fixed inset-y-0 right-0 border-10 rounded border-[#6b3710] ridged py-10 px-4 text-left">
+      <div id="leaderboard">
+        <h1 class="text-5xl text-center mb-6">Leaderboards</h1>
+        <ol id="leaderboard-list"></ol>
+      </div>
+    </div>
   </body>
 </html>

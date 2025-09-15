@@ -39,8 +39,8 @@ class World {
     this.tileHeight = 44;
 
     // How much the tiles should overlap when drawn.
-    this.overlapWidth = 2;
-    this.overlapHeight = 2;
+    this.overlapWidth = 3;
+    this.overlapHeight = 0;
 
     this.projectedTileWidth =
       this.tileWidth - this.overlapWidth - this.overlapHeight;
@@ -115,20 +115,64 @@ class World {
     this.context.fillText("LOADING ASSETS...", textX, textY);
   }
 
+  // Fuck this it took me so long
   async loadImage(uri) {
     return new Promise((resolve, reject) => {
-      var img = new Image();
-      img.onload = () => resolve(img);
-      img.onerror = reject;
-      img.src = uri;
+      try {
+        // If the URI looks like a video (mp4), create a video element so
+        // drawImage can use the current playing frame as a source.
+        if (typeof uri === "string" && uri.toLowerCase().endsWith(".webm")) {
+          const video = document.createElement("video");
+          // allow drawImage to read from the video even if served cross-origin
+          video.crossOrigin = "anonymous";
+          video.muted = true; // allow autoplay on most browsers
+          video.loop = true;
+          video.playsInline = true;
+          video.autoplay = true;
+          video.src = uri;
+
+          // Resolve when the video has loaded enough data to play a frame
+          const onCanPlay = () => {
+            cleanup();
+            // try to start playback (may be required on some browsers)
+            const p = video.play();
+            if (p && typeof p.catch === "function") p.catch(() => {});
+            resolve(video);
+          };
+
+          const onError = (e) => {
+            cleanup();
+            reject(e || new Error("Video failed to load: " + uri));
+          };
+
+          const cleanup = () => {
+            video.removeEventListener("canplay", onCanPlay);
+            video.removeEventListener("error", onError);
+          };
+
+          video.addEventListener("canplay", onCanPlay, { once: true });
+          video.addEventListener("error", onError, { once: true });
+
+          // don't need to append video to DOM; drawImage can use it directly
+        } else {
+          const img = new Image();
+          img.crossOrigin = "anonymous";
+          img.onload = () => resolve(img);
+          img.onerror = (e) =>
+            reject(e || new Error("Image failed to load: " + uri));
+          img.src = uri;
+        }
+      } catch (err) {
+        reject(err);
+      }
     });
   }
 
   buildMap() {
     this.tileMap = [
-      [1, 1, 1],
-      [1, 1, 1],
-      [1, 1, 1],
+      [29, 29, 29],
+      [29, 29, 29],
+      [29, 29, 29],
     ];
   }
 

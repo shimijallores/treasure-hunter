@@ -3,10 +3,7 @@ import { World } from "./world.js";
 document.addEventListener("DOMContentLoaded", () => {
   // Generate World (Reminder: create new assets)
   let world = new World();
-  world.init(
-    "viewport",
-    "https://assets.codepen.io/6201207/codepen-iso-tilesheet.png"
-  );
+  world.init("viewport", "./assets/videos/spritesheet.webm");
 
   // Variables
   const roundDisplay = document.querySelector("#round");
@@ -107,13 +104,13 @@ document.addEventListener("DOMContentLoaded", () => {
       // Check what item in the cell the player clicked
       if (treasures.some((item) => arraysEqual(item, coordinates))) {
         // Treasure
-        world.tileMap[row][col] = 4;
+        world.tileMap[row][col] = 27;
         minedCells.push(coordinates);
         score++;
         checkMinedTreasures();
       } else if (arraysEqual(deathBomb, coordinates)) {
         // DeathBomb (1 hit delete)
-        world.tileMap[row][col] = 5;
+        world.tileMap[row][col] = 28;
         world.shakeCanvasContext(20, 500);
         lives = 0;
         clearInterval(timerInterval);
@@ -121,12 +118,12 @@ document.addEventListener("DOMContentLoaded", () => {
         saveToLocalStorage();
       } else if (arraysEqual(extraLife, coordinates)) {
         // Extra Life
-        world.tileMap[row][col] = 2;
+        world.tileMap[row][col] = 26;
         lives++;
         minedCells.push(coordinates);
       } else {
         // Default bomb
-        world.tileMap[row][col] = 3;
+        world.tileMap[row][col] = 25;
         world.shakeCanvasContext(3);
         lives--;
         minedCells.push(coordinates);

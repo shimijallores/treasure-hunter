@@ -42,3 +42,47 @@ body {
   border-bottom-style: inset;
   border-left-style: outset;
 }
+
+/* Modal styles */
+.modal.hidden {
+  display: none;
+}
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+}
+.modal-box {
+  position: relative;
+  z-index: 2001;
+  background: #dda059;
+  color: #111;
+  padding: 2rem;
+  border-radius: 8px;
+  border: 8px ridge #6b3710;
+  min-width: 320px;
+  max-width: 90%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+}
+.modal-actions {
+  display: flex;
+  justify-content: center;
+}
+.modal button {
+  background: #6b3710;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+.modal button:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+}

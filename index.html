@@ -73,6 +73,25 @@
       id="viewport"
       class="w-full h-svh border-10 rounded border-[#6b3710]"></canvas>
 
+    <!-- Modal -->
+    <div
+      id="game-modal"
+      class="modal hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title">
+      <div class="modal-backdrop"></div>
+      <div class="modal-box">
+        <h2 id="modal-title" class="text-4xl mb-4">Message</h2>
+        <p id="modal-message" class="text-2xl mb-6">...</p>
+        <div class="modal-actions">
+          <button id="modal-restart" class="px-6 py-3 rounded ridged">
+            Restart
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- Leaderboards -->
     <div
       id="leaderboard"

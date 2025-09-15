@@ -15,9 +15,44 @@ document.addEventListener("DOMContentLoaded", () => {
   const startButton = document.querySelector("#start");
   const playerInput = document.querySelector("#player");
   const leaderboardList = document.querySelector("#leaderboard-list");
+  // Modal elements
+  const gameModal = document.querySelector("#game-modal");
+  const modalTitle = document.querySelector("#modal-title");
+  const modalMessage = document.querySelector("#modal-message");
+  const modalRestart = document.querySelector("#modal-restart");
   let score = 0;
   let round = 1;
   let player;
+
+  // Modal helpers
+  function showModal(title, message) {
+    if (!gameModal) return;
+    modalTitle.textContent = title;
+    modalMessage.textContent = message;
+    gameModal.classList.remove("hidden");
+  }
+
+  function closeModal() {
+    if (!gameModal) return;
+    gameModal.classList.add("hidden");
+  }
+
+  function restartGame() {
+    // Simple full reload will reset game state and start fresh
+    location.reload();
+  }
+
+  // Restart button (replaces previous close button)
+  modalRestart?.addEventListener("click", restartGame);
+  // Keep ability to close by clicking backdrop (optional)
+  gameModal?.addEventListener("click", (e) => {
+    if (
+      e.target === gameModal ||
+      e.target.classList.contains("modal-backdrop")
+    ) {
+      closeModal();
+    }
+  });
 
   // Initial Leaderboard Generation
   generateLeaderboard();
@@ -64,7 +99,8 @@ document.addEventListener("DOMContentLoaded", () => {
         time--;
         timerDisplay.textContent = `${String(time).padStart(2, "0")}`;
       } else {
-        console.log("Times up!");
+        // Time's up: perform checks but do not show modal (UI handled when user advances)
+        console.log("Time's up! Round ended.");
 
         // Check if atleast 1 treasure is mined
         if (
@@ -94,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
     world.canvas.ondblclick = (e) => {
       // Check if you player still has remaining lives
       if (lives <= 0) {
-        console.log("You Lost!");
+        console.log("You lost!");
         return;
       }
 
@@ -106,7 +142,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Check if a cell is already mined
       if (minedCells.some((cell) => arraysEqual(cell, coordinates))) {
-        console.log("You already chose this cell");
+        // Already chosen: silently ignore and log (no modal required)
+        console.log("Cell already chosen");
         return;
       }
 
@@ -124,7 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
         world.shakeCanvasContext(20, 500);
         lives = 0;
         clearInterval(timerInterval);
-        console.log("You Chose the Death Bomb! BOOOOM!");
+        showModal("Death Bomb!", "You chose the Death Bomb. Game over.");
         soundManager.play("nuclear");
         soundManager.stop("bg");
         soundManager.play("lose");

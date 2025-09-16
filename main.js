@@ -127,8 +127,6 @@ document.addEventListener("DOMContentLoaded", () => {
         time--;
         timerDisplay.textContent = `${String(time).padStart(2, "0")}`;
       } else {
-        console.log("Time's up! Round ended.");
-
         // Check if atleast 1 treasure is mined
         if (
           treasures.some((t) => minedCells.some((cell) => arraysEqual(cell, t)))
@@ -155,9 +153,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Main event listener
     world.canvas.ondblclick = (e) => {
-      // Check if you player still has remaining lives
+      // Check if player still has lives
       if (lives <= 0) {
-        console.log("You lost!");
         return;
       }
 
@@ -206,8 +203,28 @@ document.addEventListener("DOMContentLoaded", () => {
         lives--;
         minedCells.push(coordinates);
         soundManager.play("bomb");
-        if (lives == 0) {
-          checkMinedTreasures();
+        if (lives <= 0) {
+          // Clear the timer immediately when lives reach 0
+          clearInterval(timerInterval);
+
+          // Check if any treasures were mined before losing all lives
+          const minedTreasures = treasures.filter((t) =>
+            minedCells.some((cell) => arraysEqual(cell, t))
+          );
+
+          if (minedTreasures.length === 0) {
+            // Lost all lives without mining any treasures - game over
+            showModal(
+              "Game Over!",
+              "You lost all your lives without finding any treasures!"
+            );
+            soundManager.stop("bg");
+            soundManager.play("lose");
+            saveToLocalStorage();
+            return;
+          } else {
+            advanceRound();
+          }
         }
       }
 

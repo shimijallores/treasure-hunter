@@ -34,11 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
     gameModal.classList.remove("hidden");
   }
 
-  function closeModal() {
-    if (!gameModal) return;
-    gameModal.classList.add("hidden");
-  }
-
   function restartGame() {
     // Simple full reload will reset game state and start fresh
     location.reload();
@@ -46,15 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Restart button
   modalRestart?.addEventListener("click", restartGame);
-  // Keep ability to close by clicking backdrop
-  gameModal?.addEventListener("click", (e) => {
-    if (
-      e.target === gameModal ||
-      e.target.classList.contains("modal-backdrop")
-    ) {
-      closeModal();
-    }
-  });
 
   // Initial Leaderboard Generation
   generateLeaderboard();
@@ -139,6 +125,8 @@ document.addEventListener("DOMContentLoaded", () => {
           advanceRound(1);
         } else {
           saveToLocalStorage();
+          showModal("Timer Expired", "The timer expired, Game Over!");
+          soundManager.play("lose");
         }
 
         clearInterval(timerInterval);

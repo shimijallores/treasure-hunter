@@ -322,19 +322,19 @@ class World {
       this.blockHeight
     );
 
-    // output the tile location of the mouse
-    this.context.font = "bold 11px Tahoma";
-    this.context.textAlign = "center";
-    this.context.textBaseline = "middle";
-    this.context.fillStyle = "#F15A24";
+    // // output the tile location of the mouse
+    // this.context.font = "bold 11px Tahoma";
+    // this.context.textAlign = "center";
+    // this.context.textBaseline = "middle";
+    // this.context.fillStyle = "#F15A24";
 
-    let textX = screenX + this.projectedTileWidth / 2;
-    let textY = screenY + this.projectedTileHeight / 2;
+    // let textX = screenX + this.projectedTileWidth / 2;
+    // let textY = screenY + this.projectedTileHeight / 2;
 
-    let text = `${this.mouseTileX}, ${this.mouseTileY}`;
-    // let text = `?`;
+    // let text = `${this.mouseTileX}, ${this.mouseTileY}`;
+    // // let text = `?`;
 
-    this.context.fillText(text, textX, textY);
+    // this.context.fillText(text, textX, textY);
   }
 
   onMouseMove(e) {

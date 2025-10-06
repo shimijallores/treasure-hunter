@@ -2,10 +2,6 @@ import { World } from "./world.js";
 import soundManager from "./soundManager.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Generate World
-  let world = new World();
-  world.init("viewport", "./assets/videos/spritesheet.webm");
-
   // Variables
   const menu = document.querySelector("#menu");
   const roundDisplay = document.querySelector("#round");
@@ -97,15 +93,17 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function startRound() {
-    // start a new world
-    world.buildMap();
+    // Generate World
+    let world = new World();
+    let worldMultiplier = 4 + round;
+    world.init("viewport", "./assets/videos/spritesheet.webm", worldMultiplier);
     // Generate Leaderboard
     generateLeaderboard();
 
     let treasures = [];
     let deathBomb = [];
     let extraLife = [];
-    let lives = 2;
+    let lives = 1 + round;
     let minedCells = [];
     let time = 11; // 10 seconds
     let timerInterval;
@@ -280,37 +278,40 @@ document.addEventListener("DOMContentLoaded", () => {
       leaderboardList.appendChild(leaderboardEntry);
     });
   }
-});
 
-function generateCoordinates() {
-  let takenPositions = [];
-  let treasures = [];
-  let treasureCount = 10;
+  function generateCoordinates() {
+    let takenPositions = [];
+    let treasures = [];
+    let treasureCount = 10 + round * 2;
 
-  for (let i = 0; i < treasureCount; i++) {
-    treasures.push(generateUniqueCell(takenPositions));
+    for (let i = 0; i < treasureCount; i++) {
+      treasures.push(generateUniqueCell(takenPositions));
+    }
+
+    let deathBomb = generateUniqueCell(takenPositions);
+    let extraLife = generateUniqueCell(takenPositions);
+
+    return [treasures, deathBomb, extraLife];
   }
 
-  let deathBomb = generateUniqueCell(takenPositions);
-  let extraLife = generateUniqueCell(takenPositions);
+  function generateRandomCell() {
+    return [
+      Math.floor(Math.random(0) * (round + 4)),
+      Math.floor(Math.random(0) * (round + 4)),
+    ];
+  }
 
-  return [treasures, deathBomb, extraLife];
-}
+  function generateUniqueCell(takenPositions) {
+    let cell;
+    do {
+      cell = generateRandomCell();
+    } while (takenPositions.some((item) => arraysEqual(item, cell)));
+    takenPositions.push(cell);
+    return cell;
+  }
 
-function generateRandomCell() {
-  return [Math.floor(Math.random(0) * 5), Math.floor(Math.random(0) * 5)];
-}
-
-function generateUniqueCell(takenPositions) {
-  let cell;
-  do {
-    cell = generateRandomCell();
-  } while (takenPositions.some((item) => arraysEqual(item, cell)));
-  takenPositions.push(cell);
-  return cell;
-}
-
-function arraysEqual(a, b) {
-  if (a.length !== b.length) return false;
-  return a.every((val, i) => val === b[i]);
-}
+  function arraysEqual(a, b) {
+    if (a.length !== b.length) return false;
+    return a.every((val, i) => val === b[i]);
+  }
+});

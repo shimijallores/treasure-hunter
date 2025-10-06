@@ -52,7 +52,7 @@ class World {
     this.shakeDuration = 500;
   }
 
-  async init(canvasId, tileSheetURI) {
+  async init(canvasId, tileSheetURI, multiplier = 5) {
     this.canvas = document.getElementById(canvasId);
 
     if (this.canvas == null) {
@@ -69,7 +69,7 @@ class World {
 
     this.tileSheetImg = await this.loadImage(tileSheetURI);
 
-    this.buildMap();
+    this.buildMap(multiplier);
 
     this.canvas.oncontextmenu = (e) => {
       e.stopPropagation();
@@ -168,14 +168,16 @@ class World {
     });
   }
 
-  buildMap() {
-    this.tileMap = [
-      [29, 29, 29, 29, 29],
-      [29, 29, 29, 29, 29],
-      [29, 29, 29, 29, 29],
-      [29, 29, 29, 29, 29],
-      [29, 29, 29, 29, 29],
-    ];
+  buildMap(multiplier = 5) {
+    this.tileMap = [];
+
+    for (let i = 0; i < multiplier; i++) {
+      let row = [];
+      for (let j = 0; j < multiplier; j++) {
+        row.push(29);
+      }
+      this.tileMap.push(row);
+    }
   }
 
   mainLoop() {

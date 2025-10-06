@@ -24,6 +24,8 @@ document.addEventListener("DOMContentLoaded", () => {
   let round = 1;
   let player;
 
+  playerInput.value = localStorage.getItem("player");
+
   // Modal helpers
   function showModal(title, message) {
     if (!gameModal) return;
@@ -65,6 +67,8 @@ document.addEventListener("DOMContentLoaded", () => {
       ? playerInput.value
       : `Guest${Math.floor(Math.random() * 999999)}`;
 
+    localStorage.setItem("player", player);
+
     playerInput.disabled = true;
     playerInput.classList.add("hidden");
     menu.classList.add("hidden");
@@ -105,6 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }, duration + 50);
     });
   }
+
   function startRound() {
     // start a new world
     world.buildMap();

@@ -16,6 +16,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalTitle = document.querySelector("#modal-title");
   const modalMessage = document.querySelector("#modal-message");
   const modalRestart = document.querySelector("#modal-restart");
+  const scoreImg = document.querySelector("#score-img");
+  const roundImg = document.querySelector("#round-img");
+  const lifeImg = document.querySelector("#life-img");
+  const timeImg = document.querySelector("#time-img");
   let score = 0;
   let round = 1;
   let player;
@@ -66,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Radial transition elements
   const radialContainer = document.querySelector("#radial-transition");
 
-  function showRadialTransition(duration = 800) {
+  function showRadialTransition(duration = 2000) {
     return new Promise((resolve) => {
       if (!radialContainer) return resolve();
 
@@ -93,6 +97,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function startRound() {
+    // Remove the cursor when in game
+    document.body.style.cursor = "none";
     // Generate World
     let world = new World();
     let worldMultiplier = 4 + round;
@@ -103,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let treasures = [];
     let deathBomb = [];
     let extraLife = [];
-    let lives = 1 + round;
+    let lives = 4 + round;
     let minedCells = [];
     let time = 11; // 10 seconds
     let timerInterval;
@@ -112,6 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Start a timer
     timerInterval = setInterval(() => {
+      timeImg.classList.add("animate-pulse");
       if (time > 0) {
         time--;
         timerDisplay.textContent = `${String(time).padStart(2, "0")}`;
@@ -125,6 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
           saveToLocalStorage();
           showModal("Timer Expired", "The timer expired, Game Over!");
           soundManager.play("lose");
+          document.body.style.cursor = "auto";
         }
 
         clearInterval(timerInterval);
@@ -143,7 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
     lifeDisplay.textContent = `${lives}`;
 
     // Main event listener
-    world.canvas.ondblclick = (e) => {
+    world.canvas.onclick = (e) => {
       // Check if player still has lives
       if (lives <= 0) {
         return;
@@ -168,6 +176,10 @@ document.addEventListener("DOMContentLoaded", () => {
         world.tileMap[row][col] = 27;
         minedCells.push(coordinates);
         score++;
+        scoreImg.classList.add("animate-ping");
+        setTimeout(() => {
+          scoreImg.classList.remove("animate-ping");
+        }, 500);
         soundManager.play("treasure");
         checkMinedTreasures();
       } else if (arraysEqual(deathBomb, coordinates)) {
@@ -176,10 +188,15 @@ document.addEventListener("DOMContentLoaded", () => {
         world.shakeCanvasContext(20, 500);
         lives = 0;
         clearInterval(timerInterval);
-        showModal("Death Bomb!", "You chose the Death Bomb. Game over.");
         soundManager.play("nuclear");
-        soundManager.stop("bg");
-        soundManager.play("lose");
+
+        setTimeout(() => {
+          document.body.style.cursor = "auto";
+          showModal("Death Bomb!", "You chose the Death Bomb. Game over.");
+          soundManager.stop("bg");
+          soundManager.play("lose");
+        }, 1500);
+
         saveToLocalStorage();
       } else if (arraysEqual(extraLife, coordinates)) {
         // Extra Life
@@ -192,6 +209,10 @@ document.addEventListener("DOMContentLoaded", () => {
         world.tileMap[row][col] = 25;
         world.shakeCanvasContext(3);
         lives--;
+        lifeImg.classList.add("animate-ping");
+        setTimeout(() => {
+          lifeImg.classList.remove("animate-ping");
+        }, 500);
         minedCells.push(coordinates);
         soundManager.play("bomb");
         if (lives <= 0) {
@@ -212,6 +233,7 @@ document.addEventListener("DOMContentLoaded", () => {
             soundManager.stop("bg");
             soundManager.play("lose");
             saveToLocalStorage();
+            document.body.style.cursor = "auto";
             return;
           } else {
             advanceRound();
@@ -242,6 +264,10 @@ document.addEventListener("DOMContentLoaded", () => {
       setTimeout(async () => {
         clearInterval(timerInterval);
         await showRadialTransition();
+        roundImg.classList.add("animate-ping");
+        setTimeout(() => {
+          roundImg.classList.remove("animate-ping");
+        }, 500);
         round++;
         startRound();
       }, 500);
@@ -272,9 +298,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     leaderboard.forEach((entry, index) => {
       let leaderboardEntry = document.createElement("li");
-      leaderboardEntry.textContent = `${index + 1}. ${entry.name} reached ${
-        entry.round
-      } round/s and got a score of ${entry.score}`;
+      leaderboardEntry.textContent = `${index + 1}. ${entry.name} reached ${entry.round
+        } round/s and got a score of ${entry.score}`;
       leaderboardList.appendChild(leaderboardEntry);
     });
   }

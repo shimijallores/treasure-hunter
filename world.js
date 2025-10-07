@@ -136,7 +136,7 @@ class World {
             cleanup();
             // try to start playback (may be required on some browsers)
             const p = video.play();
-            if (p && typeof p.catch === "function") p.catch(() => {});
+            if (p && typeof p.catch === "function") p.catch(() => { });
             resolve(video);
           };
 
@@ -207,7 +207,7 @@ class World {
         ? this.tileMap[0].length - 1
         : 0;
 
-    let tileX = this.limit(Math.round(mappedX + mappedY) - 1, 0, maxTileX);
+    let tileX = this.limit(Math.round(mappedX + mappedY) - 4, 0, maxTileX);
     let tileY = this.limit(Math.round(-mappedX + mappedY), 0, maxTileY);
 
     return { x: tileX, y: tileY };

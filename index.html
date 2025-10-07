@@ -22,7 +22,7 @@
             <img
               src="/assets/images/banner.png"
               alt="banner"
-              class="max-w-1/2 cursor-pointer hover:scale-101 transition duration-200" />
+              class="max-w-3/4 max-h-120 cursor-pointer hover:scale-101 transition duration-200" />
           </div>
           <input
             type="text"
@@ -31,7 +31,7 @@
             class="z-1000 p-4 bg-white text-xl text-black m-2 rounded-full border-8 border-[#6b3710] ridged" />
           <button
             id="start"
-            class="px-8 text-lg py-4 rounded-md cursor-pointer hover:opacity-90 hover:scale-102 transition duration-200 h-fit text-white">
+            class="px-8 text-lg rounded-6 cursor-pointer hover:opacity-90 hover:scale-102 transition duration-200 h-fit text-white">
             <img
               src="/assets/images/startButton.svg"
               alt="Start"
@@ -45,31 +45,31 @@
         id="score-div"
         class="absolute bg-[#dda059] h-svh w-1/6 max-w-1/6 gap-y-5 flex flex-col justify-center items-center border-10 rounded border-[#6b3710]">
         <div
-          class="relative flex flex-col justify-center slot-div items-center border-8 rounded border-[#dda059] py-4 px-12 inset-shadow-sm">
-          <p id="time" class="text-6xl">Time</p>
-          <p id="timer" class="text-8xl absolute bottom-12">0</p>
-          <img src="/assets/images/time.svg" alt="time" class="w-40" />
+          class="relative flex flex-col justify-center slot-div items-center border-8 rounded border-[#dda059] px-6 inset-shadow-sm">
+          <p id="time" class="text-5xl">Time</p>
+          <p id="timer" class="text-6xl absolute bottom-12 z-100">0</p>
+          <img src="/assets/images/time.svg" alt="time" id="time-img" class="w-40" />
         </div>
 
         <div
-          class="relative flex flex-col justify-center slot-div items-center border-8 rounded border-[#dda059] py-4 px-12 inset-shadow-sm">
-          <p id="" class="text-6xl">Lives</p>
-          <p id="life" class="text-8xl absolute bottom-15 z-100">0</p>
-          <img src="/assets/images/life.svg" alt="life" class="w-40" />
+          class="relative flex flex-col justify-center slot-div items-center border-8 rounded border-[#dda059] px-6 inset-shadow-sm">
+          <p id="" class="text-5xl">Lives</p>
+          <p id="life" class="text-6xl absolute bottom-15 z-100">0</p>
+          <img src="/assets/images/life.svg" alt="life" id="life-img" class="w-40" />
         </div>
 
         <div
-          class="relative flex flex-col justify-center slot-div items-center border-8 rounded border-[#dda059] py-4 px-12 inset-shadow-sm">
-          <p id="" class="text-6xl">Round</p>
-          <p id="round" class="text-8xl absolute bottom-15">0</p>
-          <img src="/assets/images/round.svg" alt="round" class="w-40" />
+          class="relative flex flex-col justify-center slot-div items-center border-8 rounded border-[#dda059] px-6 inset-shadow-sm">
+          <p id="" class="text-5xl">Round</p>
+          <p id="round" class="text-6xl absolute bottom-15 z-100">0</p>
+          <img src="/assets/images/round.svg" alt="round" id="round-img" class="w-40" />
         </div>
 
         <div
-          class="relative flex flex-col justify-center slot-div items-center border-8 rounded border-[#dda059] py-4 px-12 inset-shadow-sm">
-          <p id="" class="text-6xl">Score</p>
-          <p id="score" class="text-8xl absolute bottom-15">0</p>
-          <img src="/assets/images/score.svg" alt="score" class="w-40" />
+          class="relative flex flex-col justify-center slot-div items-center border-8 rounded border-[#dda059] px-6 inset-shadow-sm">
+          <p id="" class="text-5xl">Score</p>
+          <p id="score" class="text-6xl absolute bottom-15 z-100">0</p>
+          <img src="/assets/images/score.svg" alt="score" id="score-img" class="w-40" />
         </div>
       </div>
     </div>
@@ -103,11 +103,14 @@
     <!-- Leaderboards -->
     <div
       id="leaderboard"
-      class="pixelify bg-[#dda059] max-w-1/6 fixed inset-y-0 right-0 border-10 rounded border-[#6b3710] ridged py-10 px-4 text-left">
+      class="bg-[#dda059] font-bold max-w-1/6 fixed inset-y-0 right-0 border-10 rounded border-[#6b3710] ridged py-10 px-4 text-left">
       <div id="leaderboard" class="overflow-hidden">
-        <h1 class="text-5xl text-center mb-6">Leaderboards</h1>
-        <ol id="leaderboard-list" class="text-2xl overflow-hidden"></ol>
+        <h1 class="text-5xl text-center mb-6 text-black underline">Leaderboards</h1>
+        <ol id="leaderboard-list" class="text-2xl overflow-hidden text-black"></ol>
       </div>
     </div>
+
+    <pre class="absolute top-20 text-5xl left-1/2 transform -translate-x-1/2">Move your mouse and click to choose a Tile
+    </pre>
   </body>
 </html>

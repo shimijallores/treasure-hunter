@@ -298,8 +298,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     leaderboard.forEach((entry, index) => {
       let leaderboardEntry = document.createElement("li");
-      leaderboardEntry.textContent = `${index + 1}. ${entry.name} reached ${entry.round
-        } round/s and got a score of ${entry.score}`;
+      leaderboardEntry.textContent = `${index + 1}. ${entry.name} 🏆 ${entry.score} points`;
       leaderboardList.appendChild(leaderboardEntry);
     });
   }

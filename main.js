@@ -198,7 +198,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let worldMultiplier = 4 + round;
     world.init("viewport", "./assets/videos/spritesheet.webm", worldMultiplier);
     // Generate Leaderboard
-
+    generateLeaderboard();
     let treasures = [];
     let deathBomb = [];
     let extraLife = [];

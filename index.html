@@ -9,7 +9,7 @@
     <script src="main.js" defer type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
-  <body class="">
+  <body class="overflow-hidden h-full">
     <div id="user-interface" class="pixelify">
       <!-- Main Menu -->
       <div id="menu" class="absolute w-full h-svh flex bg-black z-1000">
@@ -48,11 +48,15 @@
       <!-- Side Bar -->
       <div
         id="score-div"
-        class="absolute bg-[#dda059] h-svh w-1/6 max-w-1/6 gap-y-5 flex flex-col justify-center items-center border-10 rounded border-[#6b3710]">
+        class="absolute bg-[#dda059] w-full flex-row sm:h-svh sm:w-1/6 sm;max-w-1/6 gap-y-5 flex sm:flex-col justify-center items-center border-10 rounded border-[#6b3710]">
         <div
           class="relative flex flex-col justify-center slot-div items-center border-8 rounded border-[#dda059] px-6 inset-shadow-sm">
           <p id="time" class="text-3xl">Time</p>
-          <p id="timer" class="text-6xl absolute bottom-10 z-100">0</p>
+          <p
+            id="timer"
+            class="text-3xl sm:text-6xl absolute bottom-5 sm:bottom-10 z-100">
+            0
+          </p>
           <img
             src="/assets/images/time.svg"
             alt="time"
@@ -63,7 +67,11 @@
         <div
           class="relative flex flex-col justify-center slot-div items-center border-8 rounded border-[#dda059] px-6 inset-shadow-sm">
           <p id="" class="text-3xl">Lives</p>
-          <p id="life" class="text-6xl absolute bottom-10 z-100">0</p>
+          <p
+            id="life"
+            class="text-3xl sm:text-6xl absolute bottom-5 sm:bottom-10 z-100">
+            0
+          </p>
           <img
             src="/assets/images/life.svg"
             alt="life"
@@ -74,7 +82,11 @@
         <div
           class="relative flex flex-col justify-center slot-div items-center border-8 rounded border-[#dda059] px-6 inset-shadow-sm">
           <p id="" class="text-3xl">Round</p>
-          <p id="round" class="text-6xl absolute bottom-10 z-100">0</p>
+          <p
+            id="round"
+            class="text-3xl sm:text-6xl absolute bottom-5 sm:bottom-10 z-100">
+            0
+          </p>
           <img
             src="/assets/images/round.svg"
             alt="round"
@@ -85,7 +97,11 @@
         <div
           class="relative flex flex-col justify-center slot-div items-center border-8 rounded border-[#dda059] px-6 inset-shadow-sm">
           <p id="" class="text-3xl">Score</p>
-          <p id="score" class="text-6xl absolute bottom-10 z-100">0</p>
+          <p
+            id="score"
+            class="text-3xl sm:text-6xl absolute bottom-5 sm:bottom-10 z-100">
+            0
+          </p>
           <img
             src="/assets/images/score.svg"
             alt="score"
@@ -124,7 +140,7 @@
     <!-- Leaderboards -->
     <div
       id="leaderboard"
-      class="bg-[#dda059] font-bold max-w-1/6 fixed inset-y-0 right-0 border-10 rounded border-[#6b3710] ridged py-10 px-4 text-left">
+      class="bg-[#dda059] w-full h-1/4 sm:h-full overflow-hidden font-bold sm:max-w-1/6 fixed inset-x-0 bottom-0 sm:inset-y-0 sm:right-0 sm:left-auto sm:bottom-auto border-10 rounded border-[#6b3710] ridged py-10 px-4 text-left">
       <div id="leaderboard" class="overflow-hidden">
         <h1 class="text-3xl text-center mb-6 text-black underline">
           Leaderboards
@@ -135,8 +151,9 @@
       </div>
     </div>
 
-    <pre class="absolute top-20 text-3xl left-1/2 transform -translate-x-1/2">
-Move your mouse and click to choose a Tile
-    </pre>
+    <p
+      class="absolute top-50 sm:top-20 text-3xl left-1/2 transform -translate-x-1/2">
+      Move your mouse and click to choose a Tile
+    </p>
   </body>
 </html>

@@ -13,16 +13,21 @@
     <div id="user-interface" class="pixelify">
       <!-- Main Menu -->
       <div id="menu" class="absolute w-full h-svh flex bg-black z-1000">
-        <video loop autoplay muted playsinline class="h-fit absolute">
+        <video
+          loop
+          autoplay
+          muted
+          playsinline
+          class="hidden h-fit sm:block absolute">
           <source src="/assets/videos/loop.mp4" type="video/mp4" />
         </video>
 
         <div class="absolute w-full h-full flex flex-col items-center">
-          <div class="flex justify-center mt-20 mb-40">
+          <div class="flex justify-center mt-60 sm:mt-20 mb-40">
             <img
               src="/assets/images/banner.png"
               alt="banner"
-              class="max-w-3/4 max-h-120 cursor-pointer hover:scale-101 transition duration-200" />
+              class="w-full sm:max-w-3/4 max-h-120 cursor-pointer hover:scale-101 transition duration-200" />
           </div>
           <input
             type="text"
@@ -35,7 +40,7 @@
             <img
               src="/assets/images/startButton.svg"
               alt="Start"
-              class="w-72" />
+              class="w-44 mt-4 sm:w-60" />
           </button>
         </div>
       </div>
@@ -46,30 +51,46 @@
         class="absolute bg-[#dda059] h-svh w-1/6 max-w-1/6 gap-y-5 flex flex-col justify-center items-center border-10 rounded border-[#6b3710]">
         <div
           class="relative flex flex-col justify-center slot-div items-center border-8 rounded border-[#dda059] px-6 inset-shadow-sm">
-          <p id="time" class="text-5xl">Time</p>
-          <p id="timer" class="text-6xl absolute bottom-12 z-100">0</p>
-          <img src="/assets/images/time.svg" alt="time" id="time-img" class="w-40" />
+          <p id="time" class="text-3xl">Time</p>
+          <p id="timer" class="text-6xl absolute bottom-10 z-100">0</p>
+          <img
+            src="/assets/images/time.svg"
+            alt="time"
+            id="time-img"
+            class="w-32" />
         </div>
 
         <div
           class="relative flex flex-col justify-center slot-div items-center border-8 rounded border-[#dda059] px-6 inset-shadow-sm">
-          <p id="" class="text-5xl">Lives</p>
-          <p id="life" class="text-6xl absolute bottom-15 z-100">0</p>
-          <img src="/assets/images/life.svg" alt="life" id="life-img" class="w-40" />
+          <p id="" class="text-3xl">Lives</p>
+          <p id="life" class="text-6xl absolute bottom-10 z-100">0</p>
+          <img
+            src="/assets/images/life.svg"
+            alt="life"
+            id="life-img"
+            class="w-32" />
         </div>
 
         <div
           class="relative flex flex-col justify-center slot-div items-center border-8 rounded border-[#dda059] px-6 inset-shadow-sm">
-          <p id="" class="text-5xl">Round</p>
-          <p id="round" class="text-6xl absolute bottom-15 z-100">0</p>
-          <img src="/assets/images/round.svg" alt="round" id="round-img" class="w-40" />
+          <p id="" class="text-3xl">Round</p>
+          <p id="round" class="text-6xl absolute bottom-10 z-100">0</p>
+          <img
+            src="/assets/images/round.svg"
+            alt="round"
+            id="round-img"
+            class="w-32" />
         </div>
 
         <div
           class="relative flex flex-col justify-center slot-div items-center border-8 rounded border-[#dda059] px-6 inset-shadow-sm">
-          <p id="" class="text-5xl">Score</p>
-          <p id="score" class="text-6xl absolute bottom-15 z-100">0</p>
-          <img src="/assets/images/score.svg" alt="score" id="score-img" class="w-40" />
+          <p id="" class="text-3xl">Score</p>
+          <p id="score" class="text-6xl absolute bottom-10 z-100">0</p>
+          <img
+            src="/assets/images/score.svg"
+            alt="score"
+            id="score-img"
+            class="w-32" />
         </div>
       </div>
     </div>
@@ -105,12 +126,17 @@
       id="leaderboard"
       class="bg-[#dda059] font-bold max-w-1/6 fixed inset-y-0 right-0 border-10 rounded border-[#6b3710] ridged py-10 px-4 text-left">
       <div id="leaderboard" class="overflow-hidden">
-        <h1 class="text-5xl text-center mb-6 text-black underline">Leaderboards</h1>
-        <ol id="leaderboard-list" class="text-2xl overflow-hidden text-black"></ol>
+        <h1 class="text-3xl text-center mb-6 text-black underline">
+          Leaderboards
+        </h1>
+        <ol
+          id="leaderboard-list"
+          class="text-2xl overflow-hidden text-black"></ol>
       </div>
     </div>
 
-    <pre class="absolute top-20 text-5xl left-1/2 transform -translate-x-1/2">Move your mouse and click to choose a Tile
+    <pre class="absolute top-20 text-3xl left-1/2 transform -translate-x-1/2">
+Move your mouse and click to choose a Tile
     </pre>
   </body>
 </html>

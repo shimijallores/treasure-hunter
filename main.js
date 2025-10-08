@@ -26,6 +26,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   playerInput.value = localStorage.getItem("player");
 
+  generateLeaderboard();
+
   // Modal helpers
   function showModal(title, message) {
     if (!gameModal) return;
@@ -47,6 +49,51 @@ document.addEventListener("DOMContentLoaded", () => {
 
   soundManager.loop("bg");
 
+  // Pop up function
+  function showPopup(imageSrc) {
+    const popup = document.createElement("div");
+    popup.style.position = "fixed";
+    popup.style.top = "50%";
+    popup.style.left = "50%";
+    popup.style.transform = "translate(-50%, -50%)";
+    popup.style.zIndex = "10000";
+    popup.style.pointerEvents = "none";
+    popup.style.opacity = "0";
+    popup.style.transition =
+      "opacity 0.5s ease-in-out, transform 0.5s ease-in-out";
+
+    const img = document.createElement("img");
+    img.src = imageSrc;
+    img.style.width = "80px";
+    img.style.height = "80px";
+    popup.appendChild(img);
+
+    document.body.appendChild(popup);
+
+    // Random position offset
+    const randomX = (Math.random() - 0.5) * 500;
+    const randomY = (Math.random() - 0.5) * 500;
+    popup.style.transform = `translate(calc(-50% + ${randomX}px), calc(-50% + ${randomY}px))`;
+
+    // Fade in
+    setTimeout(() => {
+      popup.style.opacity = "1";
+    }, 10);
+
+    // Fade out and remove after 1.5 seconds
+    setTimeout(() => {
+      popup.style.opacity = "0";
+      popup.style.transform = `translate(calc(-50% + ${randomX}px), calc(-50% + ${
+        randomY - 100
+      }px))`;
+      setTimeout(() => {
+        if (document.body.contains(popup)) {
+          document.body.removeChild(popup);
+        }
+      }, 500);
+    }, 500);
+  }
+
   // Startgame Event Listener
   startButton.addEventListener("click", () => {
     player = playerInput.value
@@ -67,32 +114,79 @@ document.addEventListener("DOMContentLoaded", () => {
     startRound();
   });
 
-  // Radial transition elements
-  const radialContainer = document.querySelector("#radial-transition");
-
-  function showRadialTransition(duration = 2000) {
+  function nextRoundPopup(nextRound, duration = 3000) {
     return new Promise((resolve) => {
-      if (!radialContainer) return resolve();
+      // Create popup overlay
+      const popupOverlay = document.createElement("div");
+      popupOverlay.style.position = "fixed";
+      popupOverlay.style.top = "0";
+      popupOverlay.style.left = "0";
+      popupOverlay.style.width = "100%";
+      popupOverlay.style.height = "100%";
+      popupOverlay.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+      popupOverlay.style.zIndex = "10000";
+      popupOverlay.style.display = "flex";
+      popupOverlay.style.alignItems = "center";
+      popupOverlay.style.justifyContent = "center";
+      popupOverlay.style.opacity = "0";
+      popupOverlay.style.transition = "opacity 0.5s ease-in-out";
 
-      // Clear previous content
-      radialContainer.innerHTML = "";
-      radialContainer.classList.remove("radial-hidden");
-      radialContainer.classList.add("radial-visible");
+      // Create popup content
+      const popupContent = document.createElement("div");
+      popupContent.style.backgroundColor = "#dda059";
+      popupContent.style.border = "10px solid #6b3710";
+      popupContent.style.borderRadius = "20px";
+      popupContent.style.padding = "40px";
+      popupContent.style.textAlign = "center";
+      popupContent.style.boxShadow = "0 0 20px rgba(0,0,0,0.5)";
 
-      const circle = document.createElement("div");
-      circle.className = "radial-circle";
-      radialContainer.appendChild(circle);
+      // Add round text
+      const roundText = document.createElement("div");
+      roundText.textContent = `Round ${nextRound}`;
+      roundText.style.fontSize = "6rem";
+      roundText.style.fontWeight = "bold";
+      roundText.style.color = "#6b3710";
+      roundText.style.marginBottom = "20px";
+      popupContent.appendChild(roundText);
 
-      // Start animation via inline style using keyframes
-      circle.style.animation = `radialExpand ${duration}ms ease-in-out forwards`;
+      // Add countdown timer
+      const timerText = document.createElement("div");
+      timerText.textContent = "3";
+      timerText.style.fontSize = "4rem";
+      timerText.style.fontWeight = "bold";
+      timerText.style.color = "#6b3710";
+      timerText.classList.add("pixelify");
+      popupContent.appendChild(timerText);
 
-      // Resolve after animation
+      popupOverlay.appendChild(popupContent);
+      document.body.appendChild(popupOverlay);
+
+      // Fade in popup
       setTimeout(() => {
-        radialContainer.classList.remove("radial-visible");
-        radialContainer.classList.add("radial-hidden");
-        radialContainer.innerHTML = "";
-        resolve();
-      }, duration + 50);
+        popupOverlay.style.opacity = "1";
+      }, 100);
+
+      // Update countdown timer
+      setTimeout(() => {
+        timerText.textContent = "2";
+      }, 1000);
+      setTimeout(() => {
+        timerText.textContent = "1";
+      }, 2000);
+      setTimeout(() => {
+        timerText.textContent = "0";
+      }, 2500);
+
+      // Fade out and remove after duration
+      setTimeout(() => {
+        popupOverlay.style.opacity = "0";
+        setTimeout(() => {
+          if (document.body.contains(popupOverlay)) {
+            document.body.removeChild(popupOverlay);
+          }
+          resolve();
+        }, 500);
+      }, duration);
     });
   }
 
@@ -104,12 +198,11 @@ document.addEventListener("DOMContentLoaded", () => {
     let worldMultiplier = 4 + round;
     world.init("viewport", "./assets/videos/spritesheet.webm", worldMultiplier);
     // Generate Leaderboard
-    generateLeaderboard();
 
     let treasures = [];
     let deathBomb = [];
     let extraLife = [];
-    let lives = 4 + round;
+    let lives = 3 + round;
     let minedCells = [];
     let time = 11; // 10 seconds
     let timerInterval;
@@ -176,6 +269,7 @@ document.addEventListener("DOMContentLoaded", () => {
         world.tileMap[row][col] = 27;
         minedCells.push(coordinates);
         score++;
+        showPopup("/assets/images/treasure.png");
         scoreImg.classList.add("animate-ping");
         setTimeout(() => {
           scoreImg.classList.remove("animate-ping");
@@ -187,6 +281,7 @@ document.addEventListener("DOMContentLoaded", () => {
         world.tileMap[row][col] = 28;
         world.shakeCanvasContext(20, 500);
         lives = 0;
+        showPopup("/assets/images/bomb.png");
         clearInterval(timerInterval);
         soundManager.play("nuclear");
 
@@ -209,6 +304,7 @@ document.addEventListener("DOMContentLoaded", () => {
         world.tileMap[row][col] = 25;
         world.shakeCanvasContext(3);
         lives--;
+        showPopup("/assets/images/bomb.png");
         lifeImg.classList.add("animate-ping");
         setTimeout(() => {
           lifeImg.classList.remove("animate-ping");
@@ -263,7 +359,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // Next round with radial transition
       setTimeout(async () => {
         clearInterval(timerInterval);
-        await showRadialTransition();
+        await nextRoundPopup(round + 1);
         roundImg.classList.add("animate-ping");
         setTimeout(() => {
           roundImg.classList.remove("animate-ping");
@@ -298,7 +394,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     leaderboard.forEach((entry, index) => {
       let leaderboardEntry = document.createElement("li");
-      leaderboardEntry.textContent = `${index + 1}. ${entry.name} 🏆 ${entry.score} points`;
+      leaderboardEntry.textContent = `${index + 1}. ${entry.name} 🏆 ${
+        entry.score
+      } points`;
       leaderboardList.appendChild(leaderboardEntry);
     });
   }
